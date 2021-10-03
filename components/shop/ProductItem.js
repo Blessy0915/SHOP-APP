@@ -29,7 +29,8 @@ const ProductItem = (props) => {
                                 onPress={props.viewDetails}/>
                                 
                         <Button title="Add to Cart"
-                                color={Colors.primaryColor}/>
+                                color={Colors.primaryColor}
+                                onPress={props.addToCart}/>
                     </View>
                 </View>
             </TouchableComponent>
