@@ -1,6 +1,8 @@
+import PRODUCTS from '../../data/dummy-data'
+
 const initailState = {
-    availableProducts : [],
-    userProducts : []
+    availableProducts : PRODUCTS,
+    userProducts : PRODUCTS.filter(product => product.ownerID == 'u1')
 }
 
 const productsReducer = ( state=initailState, action ) => {
