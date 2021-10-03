@@ -1,7 +1,8 @@
 import { ADD_TO_CART } from '../actions/cart'
+import CartItem from '../../models/CartItem'
 
 const initailState = {
-    items : [],
+    items : {},
     totalAmount : 0
 }
 
@@ -9,18 +10,30 @@ const cartReducer = ( state=initailState, action ) => {
     switch(action.type)
     {
         case ADD_TO_CART : {
-            const itemToAdd = action.payload.itemToAdd
-            const inCart = state.items.find(item => item.id == itemToAdd.id)
-            console.log('here', inCart)
-            if(inCart){
+            console.log(state)
+            const addedProduct = action.payload.product
+            const productTitle = addedProduct.title
+            const productPrice = addedProduct.price
 
-                // const item =  state.item
-                // return {...state, items:state.items.concat(item)}
-                return state
+            if(state.items[addedProduct.id]){  //items.id?
+                const incQuantity = state.items[addedProduct.id].quantity + 1
+                const totalProductSum = state.items[addedProduct.id].sum + productPrice
+                const updtedCartItem = new CartItem(incQuantity, productPrice, productTitle, totalProductSum)
+                return {
+                    ...state,
+                    items : {...state.items, [addedProduct.id]: updtedCartItem},
+                    totalAmount : state.totalAmount + productPrice
+                }
+            } 
+            else {
+                const newCartItem = new CartItem(1, productPrice, productTitle, productPrice)
+                return {
+                    ...state,
+                    items  : {...state.items, [addedProduct.id] : newCartItem},
+                    totalAmount : state.totalAmount + productPrice
+                }
             }
-            else{
-                return {...state, items: state.items.concat(itemToAdd)}
-            }
+
         }
         default : {
             return state

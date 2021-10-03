@@ -3,7 +3,7 @@ import { FlatList, Text } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 
 import ProductItem from '../../components/shop/ProductItem'
-import { addToCart } from '../../store/actions/cart'
+import * as cartActions from '../../store/actions/cart'
 
 const ProductListingScreen = (props) => {
 
@@ -18,7 +18,7 @@ const ProductListingScreen = (props) => {
                                      price={itemData.item.price}
                                      description={itemData.item.description} 
                                      addToCart={() => {
-                                            dispatch(addToCart(itemData.item))
+                                            dispatch(cartActions.addToCart(itemData.item))
                                      }}
                                      viewDetails={() => {
                                          props.navigation.navigate('ProductDetail', {
