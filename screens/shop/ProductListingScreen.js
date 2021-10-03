@@ -16,7 +16,10 @@ const ProductListingScreen = (props) => {
                                      price={itemData.item.price}
                                      description={itemData.item.description} 
                                      viewDetails={() => {
-                                         props.navigation.navigate('ProductDetail')
+                                         props.navigation.navigate('ProductDetail', {
+                                            productID : itemData.item.id,
+                                            productTitle : itemData.item.title
+                                         })
                                      }}/>
                   )}/>
     )

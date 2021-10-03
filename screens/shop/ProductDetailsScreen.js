@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const ProductDetailsScreen = () => {
+const ProductDetailsScreen = (props) => {
+    
     return (
         <View>
             <Text>
@@ -9,6 +10,13 @@ const ProductDetailsScreen = () => {
             </Text>
         </View>
     )
+}
+
+ProductDetailsScreen.navigationOptions = (navData) => {
+    const productTitle = navData.navigation.getParam('productTitle')
+    return {
+        headerTitle : productTitle
+    }
 }
 
 export default ProductDetailsScreen
