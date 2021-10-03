@@ -14,7 +14,10 @@ const ProductListingScreen = (props) => {
                   renderItem={(itemData) => (
                         <ProductItem imageURL={itemData.item.imageURL}
                                      price={itemData.item.price}
-                                     description={itemData.item.description} />
+                                     description={itemData.item.description} 
+                                     viewDetails={() => {
+                                         props.navigation.navigate('ProductDetail')
+                                     }}/>
                   )}/>
     )
 }
