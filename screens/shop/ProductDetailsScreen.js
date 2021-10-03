@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView, Image, StyleSheet, Button } from 'react-native'
 import { useSelector } from 'react-redux'
+import Colors from '../../constants/Color'
 
 const ProductDetailsScreen = (props) => {
     
@@ -8,11 +9,25 @@ const ProductDetailsScreen = (props) => {
     const product = useSelector(state => state.products.availableProducts.find(product => product.id === productID))
     
     return (
-        <View>
-            <Text>
-                Product
-            </Text>
-        </View>
+        <ScrollView>
+            <Image source={{uri : product.imageURL}}
+                   style={styles.image}/>
+
+            <View style={styles.buttonContainer}>
+                <Button title="ADD TO CART"
+                        color={Colors.primaryColor}/>
+            </View>
+            <View style={styles.textContainer}> 
+                <Text style={styles.price}>
+                    ${product.price.toFixed(2)}
+                </Text>  
+                <Text style={styles.description}>
+                    {product.description}
+                </Text> 
+            </View>
+
+
+        </ScrollView>
     )
 }
 
@@ -23,4 +38,28 @@ ProductDetailsScreen.navigationOptions = (navData) => {
     }
 }
 
+const styles = StyleSheet.create({
+    image : {
+        width : '100%',
+        height : 200
+    },
+    textContainer : {
+        alignItems : 'center',
+        marginHorizontal : 15,
+        marginVertical : 5
+    },
+    description : {
+        marginTop : 5,
+        fontSize : 18,
+        textAlign : 'center'
+    },
+    price : {
+        fontSize : 25,
+        color : '#888'
+    },
+    buttonContainer : {
+        marginHorizontal : 100,
+        marginTop : 5
+    }
+})
 export default ProductDetailsScreen

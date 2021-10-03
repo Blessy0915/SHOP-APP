@@ -10,7 +10,7 @@ const ProductItem = (props) => {
     }
     return (
         <View style={styles.screen}>
-            <TouchableComponent onPress={props.viewDetails}>
+            <TouchableComponent onPress={props.viewDetails} useForeGround>
                 <View style={styles.productItem}>
 
                     <View style={styles.imageContainer}>
