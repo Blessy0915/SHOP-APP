@@ -1,32 +1,38 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, Button } from 'react-native'
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native'
 import Colors from '../../constants/Color'
 
 const ProductItem = (props) => {
+
+    const TouchableComponent = TouchableOpacity
+    if(Platform.OS == 'android' && Platform.Version > 21){
+        TouchableComponent = TouchableNativeFeedback
+    }
     return (
         <View style={styles.screen}>
+            <TouchableComponent onPress={props.viewDetails}>
+                <View style={styles.productItem}>
 
-            <View style={styles.productItem}>
+                    <View style={styles.imageContainer}>
+                        <Image source={{ uri : props.imageURL}}
+                            style={styles.image}/>
+                    </View>
 
-                <View style={styles.imageContainer}>
-                    <Image source={{ uri : props.imageURL}}
-                        style={styles.image}/>
+                    <View style={styles.details}>
+                        <Text style={styles.description}>{props.description}</Text>
+                        <Text style={styles.price}>${props.price.toFixed(2)}</Text>
+                    </View>
+
+                    <View style={styles.buttonContainer}>
+                        <Button title="View Details"
+                                color={Colors.primaryColor}
+                                onPress={props.viewDetails}/>
+                                
+                        <Button title="Add to Cart"
+                                color={Colors.primaryColor}/>
+                    </View>
                 </View>
-
-                <View style={styles.details}>
-                    <Text style={styles.description}>{props.description}</Text>
-                    <Text style={styles.price}>${props.price.toFixed(2)}</Text>
-                </View>
-
-                <View style={styles.buttonContainer}>
-                    <Button title="View Details"
-                            color={Colors.primaryColor}
-                            onPress={props.viewDetails}/>
-                            
-                    <Button title="Add to Cart"
-                            color={Colors.primaryColor}/>
-                </View>
-            </View>
+            </TouchableComponent>
         </View>
     )
 }

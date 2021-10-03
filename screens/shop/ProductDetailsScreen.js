@@ -1,7 +1,11 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import { useSelector } from 'react-redux'
 
 const ProductDetailsScreen = (props) => {
+    
+    const productID = props.navigation.getParam('productID')
+    const product = useSelector(state => state.products.availableProducts.find(product => product.id === productID))
     
     return (
         <View>
