@@ -10,7 +10,6 @@ const cartReducer = ( state=initailState, action ) => {
     switch(action.type)
     {
         case ADD_TO_CART : {
-            console.log(state)
             const addedProduct = action.payload.product
             const productTitle = addedProduct.title
             const productPrice = addedProduct.price

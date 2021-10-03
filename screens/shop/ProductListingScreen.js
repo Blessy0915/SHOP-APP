@@ -37,7 +37,8 @@ ProductListingScreen.navigationOptions = (navData) => {
         headerRight : () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item title="CART"
-                      iconName={Platform.OS == 'ios' ? "ios-cart" : "ios-cart-outline"}/>
+                      iconName={Platform.OS == 'ios' ? "ios-cart" : "ios-cart-outline"}
+                      onPress={() => navData.navigation.navigate('Cart')}/>
             </HeaderButtons>
         )
     }
