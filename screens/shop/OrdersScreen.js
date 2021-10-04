@@ -1,5 +1,8 @@
 import React from 'react'
-import { Text, View} from 'react-native'
+import { Platform, Text, View} from 'react-native'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import Colors from '../../constants/Color'
+import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 const OrdersScreen = () => {
     return (
@@ -9,8 +12,18 @@ const OrdersScreen = () => {
     )
 }
 
-OrdersScreen.navigationOptions = {
-    headerTitle : 'ORDERS'
+OrdersScreen.navigationOptions = (navData) => {
+    return {
+        headerTitle : 'ORDERS',
+        headerLeft : () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item name="MENU"
+                      iconName={Platform.OS == 'android' ? 'md-menu' : 'ios-menu'}
+                      color={Colors.primaryColor}
+                      onPress={() => navData.navigation.toggleDrawer()}/>
+            </HeaderButtons>
+        )
+   }
 }
 
 export default OrdersScreen
