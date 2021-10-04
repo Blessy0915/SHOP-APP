@@ -43,9 +43,9 @@ ProductListingScreen.navigationOptions = (navData) => {
         ),
         headerLeft : () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item title="CART"
+                <Item title="MENU"
                       iconName={Platform.OS == 'ios' ? "ios-menu" : "ios-menu-outline"}
-                      onPrses={() => navData.navigation.toggleDrawer()}/>
+                      onPress={() => navData.navigation.toggleDrawer()}/>
             </HeaderButtons>
         ),
     }

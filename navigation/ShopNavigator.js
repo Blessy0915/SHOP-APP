@@ -31,9 +31,6 @@ const OrdersNavigator = createStackNavigator(
         Orders : OrdersScreen
     },
     {
-        navigationOptions : {
-            headerTitle : 'ORDERS'
-        },
         defaultNavigationOptions : defaultNavigationOptions
     }
 )
@@ -44,7 +41,7 @@ const shopNavigator = createDrawerNavigator(
     },
     {
         contentOptions : {
-
+            activeTintColor : Colors.primaryColor
         }
     }
 )

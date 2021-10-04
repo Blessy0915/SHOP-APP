@@ -9,4 +9,8 @@ const OrdersScreen = () => {
     )
 }
 
+OrdersScreen.navigationOptions = {
+    headerTitle : 'ORDERS'
+}
+
 export default OrdersScreen
