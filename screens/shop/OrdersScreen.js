@@ -12,7 +12,8 @@ const OrdersScreen = () => {
         <FlatList data={orders}
                   keyExtractor={(item,index) => item.id}
                   renderItem={(itemData) => <OrderItem amount={itemData.item.amount}
-                                                       date={itemData.item.readableDate}/>}/>
+                                                       date={itemData.item.readableDate}
+                                                       items={itemData.item.items}/>}/>
     )
 }
 

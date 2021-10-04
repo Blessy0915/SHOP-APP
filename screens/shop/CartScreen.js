@@ -34,7 +34,7 @@ const CartScreen = () => {
                 <Button title="Order Now"
                         color={Colors.accentColor}
                         disabled={cartItemsArray.length ===0}
-                        onPress={() => dispatch(orderActions.addOrder(cartItems,totalAmount))}/>
+                        onPress={() => dispatch(orderActions.addOrder(cartItemsArray,totalAmount))}/>
             </View>
 
             <View style={styles.listItemContainer}>
