@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, Button, FlatList } from 'react-native'
 import { useSelector } from 'react-redux'
 import Colors from '../../constants/Color'
+import CartItem from '../../components/shop/CartItem'
 
 const CartScreen = () => {
 
@@ -33,10 +34,13 @@ const CartScreen = () => {
             </View>
 
             <View style={styles.listItemContainer}>
-                <Text>CART</Text>
+                <Text style={styles.cartListTitle}>CART</Text>
                 <FlatList data={cartItemsArray}
                       keyExtractor={(item,index) => item.id}
-                      renderItem ={(itemData) => <Text>{itemData.item.title}</Text>}/>
+                      renderItem ={(itemData) => <CartItem productTitle={itemData.item.title}
+                                                           productQuantity={itemData.item.quantity}
+                                                           productSum={itemData.item.sum}
+                                                           onRemove={() => {}}/>}/>
             </View>
         </View>
     )
@@ -68,7 +72,12 @@ const styles = StyleSheet.create({
         fontSize : 22
     },
     listItemContainer : {
-        margin : 10
+        marginTop : 15,
+        marginVertical : 8
+    },
+    cartListTitle : {
+        fontSize : 25,
+        textAlign: 'center'
     }
 })
 export default CartScreen
