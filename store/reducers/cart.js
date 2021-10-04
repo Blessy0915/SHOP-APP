@@ -1,4 +1,4 @@
-import { ADD_TO_CART } from '../actions/cart'
+import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions/cart'
 import CartItem from '../../models/CartItem'
 
 const initailState = {
@@ -33,6 +33,29 @@ const cartReducer = ( state=initailState, action ) => {
                 }
             }
 
+        }
+        case REMOVE_FROM_CART : {
+            const id = action.payload.productID
+            let updatedCart
+            if(state.items[id].quantity > 1){
+                updatedCart = new CartItem(
+                    state.items[id].quantity - 1,
+                    state.items[id].productPrice,
+                    state.items[id].productTitle,
+                    state.items[id].sum - state.items[id].productPrice
+                )
+                updatedCart = {...state.items, [id]: updatedCart}
+            }
+            else{
+                updatedCart={...state.items}
+                delete updatedCart[id]
+                return { ...state, items : updatedCart}
+            }
+            return { 
+                ...state,
+                items : updatedCart,
+                totalAmount : state.totalAmount - state.items[id].productPrice
+            }
         }
         default : {
             return state
