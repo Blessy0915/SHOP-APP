@@ -40,7 +40,14 @@ ProductListingScreen.navigationOptions = (navData) => {
                       iconName={Platform.OS == 'ios' ? "ios-cart" : "ios-cart-outline"}
                       onPress={() => navData.navigation.navigate('Cart')}/>
             </HeaderButtons>
-        )
+        ),
+        headerLeft : () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item title="CART"
+                      iconName={Platform.OS == 'ios' ? "ios-menu" : "ios-menu-outline"}
+                      onPrses={() => navData.navigation.toggleDrawer()}/>
+            </HeaderButtons>
+        ),
     }
 }
 
