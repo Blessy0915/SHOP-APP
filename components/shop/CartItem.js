@@ -16,11 +16,14 @@ const CartItem = (props) => {
                 <Text style={styles.sum}>
                     ${props.productSum.toFixed(2)} {'  '}
                 </Text>
-                <TouchableOpacity onPress={props.onRemove}>
-                    <Ionicons name={Platform.OS == 'android' ? 'md-trash' : 'ios-trash'}
-                            size={25}
-                            color='red'/>
-                </TouchableOpacity>
+                {
+                    !props.hideRemoveIcon && 
+                    <TouchableOpacity onPress={props.onRemove}>
+                        <Ionicons name={Platform.OS == 'android' ? 'md-trash' : 'ios-trash'}
+                                size={25}
+                                color='red'/>
+                    </TouchableOpacity>
+                }
             </View>
         </View>
     )

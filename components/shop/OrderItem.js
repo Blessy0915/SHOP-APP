@@ -26,7 +26,8 @@ const OrderItem = (props) => {
                                       productTitle={item.title}
                                       productQuantity={item.quantity}
                                       productSum={item.sum}
-                                      onRemove={()=>{}}/>
+                                      onRemove={()=>{}}
+                                      hideRemoveIcon={true}/>
                         ))
                     }
                 </View>
