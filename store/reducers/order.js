@@ -22,5 +22,10 @@ const ordersReducer = ( state=initailState, action ) => {
                 orders : state.orders.concat(newOrder)
             }
         }
+        default : {
+            return state
+        }
     }
 }
+
+export default ordersReducer
