@@ -1,11 +1,12 @@
 import React from 'react'
-import { FlatList, Platform } from 'react-native'
+import { FlatList, Platform, Button } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 
 import ProductItem from '../../components/shop/ProductItem'
 import * as cartActions from '../../store/actions/cart'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
+import Colors from '../../constants/Color'
 
 const ProductListingScreen = (props) => {
 
@@ -22,12 +23,24 @@ const ProductListingScreen = (props) => {
                                      addToCart={() => {
                                             dispatch(cartActions.addToCart(itemData.item))
                                      }}
-                                     viewDetails={() => {
+                                     onTouch={() => {
                                          props.navigation.navigate('ProductDetail', {
                                             productID : itemData.item.id,
                                             productTitle : itemData.item.title
                                          })
-                                     }}/>
+                                     }}>
+                            <Button title="VIEW DETAILS" 
+                                    color={Colors.primaryColor}
+                                    onPress={() => {
+                                        props.navigation.navigate('ProductDetail', {
+                                        productID : itemData.item.id,
+                                        productTitle : itemData.item.title
+                                    })}}/>
+                                    
+                            <Button title="ADD TO CART"
+                                    color={Colors.primaryColor}
+                                    onPress={() => dispatch(cartActions.addToCart(itemData.item))}/>
+                        </ProductItem>
                   )}/>
     )
 }
