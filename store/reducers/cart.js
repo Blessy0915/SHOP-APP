@@ -51,7 +51,6 @@ const cartReducer = ( state=initailState, action ) => {
             else{
                 updatedCart={...state.items}
                 delete updatedCart[id]
-                return { ...state, items : updatedCart}
             }
             return { 
                 ...state,

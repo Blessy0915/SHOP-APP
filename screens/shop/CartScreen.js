@@ -29,7 +29,7 @@ const CartScreen = () => {
             <View style={styles.orderCard}>
                 <Text style={styles.text}>
                     Total : { }
-                    <Text style={styles.amount}>${totalAmount.toFixed(2)}</Text>
+                    <Text style={styles.amount}>${Math.round(totalAmount.toFixed(2)) * 100/100}</Text>
                 </Text>
                 <Button title="Order Now"
                         color={Colors.accentColor}
