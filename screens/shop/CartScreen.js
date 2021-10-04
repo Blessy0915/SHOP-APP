@@ -1,11 +1,24 @@
 import React from 'react'
-import { View, Text, StyleSheet, Button, Platform } from 'react-native'
+import { View, Text, StyleSheet, Button, FlatList } from 'react-native'
 import { useSelector } from 'react-redux'
 import Colors from '../../constants/Color'
 
 const CartScreen = () => {
 
     const totalAmount = useSelector(state => state.cart.totalAmount)
+    const cartItems = useSelector(state => state.cart.items)
+    const cartItemsArray = []
+
+    for(const item in cartItems){
+        cartItemsArray.push({
+            id : item,
+            title : cartItems[item].productTitle,
+            price : cartItems[item].productPrice,
+            quantity : cartItems[item].quantity,
+            sum : cartItems[item].sum
+        })
+    }   
+
     return (
         <View style={styles.screen}>
 
@@ -15,7 +28,15 @@ const CartScreen = () => {
                     <Text style={styles.amount}>${totalAmount.toFixed(2)}</Text>
                 </Text>
                 <Button title="Order Now"
-                        color={Colors.accentColor}/>
+                        color={Colors.accentColor}
+                        disabled={cartItemsArray.length ===0}/>
+            </View>
+
+            <View style={styles.listItemContainer}>
+                <Text>CART</Text>
+                <FlatList data={cartItemsArray}
+                      keyExtractor={(item,index) => item.id}
+                      renderItem ={(itemData) => <Text>{itemData.item.title}</Text>}/>
             </View>
         </View>
     )
@@ -45,6 +66,9 @@ const styles = StyleSheet.create({
     },
     text : {
         fontSize : 22
+    },
+    listItemContainer : {
+        margin : 10
     }
 })
 export default CartScreen
