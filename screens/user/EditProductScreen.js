@@ -38,7 +38,9 @@ const EditProductScreen = (props) => {
                     <Text styles={styles.label}>TITLE</Text>
                     <TextInput style={styles.input}
                                value={title}
-                               onChangeText={(value) => setTitle(value)}/>
+                               onChangeText={(value) => setTitle(value)}
+                               returnKeyType='next'
+                               keyboardType='default'/>
                 </View>
                 {
                     !productID &&
@@ -46,7 +48,8 @@ const EditProductScreen = (props) => {
                         <Text>PRICE</Text>
                         <TextInput style={styles.input}
                                 value={price}
-                                onChangeText={(value) => setPrice(value)}/>
+                                onChangeText={(value) => setPrice(value)}
+                                keyboardType='decimal-pad'/>
                     </View>
                 }
 
