@@ -33,6 +33,36 @@ const productsReducer = ( state=initailState, action ) => {
                 userProducts : state.userProducts.concat(newProduct)
             }
         }
+        case UPDATE_PRODUCT : {
+            const productID = action.payload.id
+            const product = action.payload.product
+
+            const indexUserProduct = state.userProducts.findIndex(product => product.id === productID)
+            const updatedUserProduct = new Product(
+                productID,
+                state.userProducts[indexUserProduct].ownerID,
+                product.title,
+                product.imageURL,
+                product.description,
+                state.userProducts[indexUserProduct].price
+            )
+
+            const indexAvailableProducts = state.availableProducts.findIndex(product => product.id == productID)
+            const updatedAvailabelProduct = new Product(
+                productID,
+                state.availableProducts[indexAvailableProducts].ownerID,
+                product.title,
+                product.imageURL,
+                product.description,
+                state.availableProducts[indexAvailableProducts].price
+            )
+
+            return {
+                ...state,
+                availableProducts : [...state.availableProducts, availableProducts[indexAvailableProducts] = updatedAvailabelProduct],
+                userProducts : [...state.userProducts, userProducts[indexUserProduct] = updatedUserProduct]
+            } 
+        }
         default : {
             return state
         }
