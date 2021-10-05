@@ -24,6 +24,7 @@ const EditProductScreen = (props) => {
             description
         }
         productID ? dispatch(productActions.updateProduct(formData, productID)) : dispatch(productActions.createProduct(formData, productID))
+        props.navigation.navigate('Admin')
     }, [title, price, imageURL, description])
     
     useEffect(() => {
