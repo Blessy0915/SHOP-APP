@@ -36,12 +36,16 @@ const EditProductScreen = (props) => {
                                value={title}
                                onChangeText={(value) => setTitle(value)}/>
                 </View>
-                <View style={styles.container}>
-                    <Text>PRICE</Text>
-                    <TextInput style={styles.input}
-                               value={price}
-                               onChangeText={(value) => setPrice(value)}/>
-                </View>
+                {
+                    !productID &&
+                    <View style={styles.container}>
+                        <Text>PRICE</Text>
+                        <TextInput style={styles.input}
+                                value={price}
+                                onChangeText={(value) => setPrice(value)}/>
+                    </View>
+                }
+
                 <View style={styles.container}>
                     <Text>IMAGE URL</Text>
                     <TextInput style={styles.input}
