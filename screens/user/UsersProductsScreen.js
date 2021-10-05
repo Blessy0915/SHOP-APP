@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-native'
+import { Button, Platform } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import { useSelector, useDispatch } from 'react-redux'
@@ -49,6 +49,13 @@ UsersProductsScreen.navigationOptions = (navData) => {
                 <Item title="MENU"
                       iconName="ios-menu"
                       onPress={()=>navData.navigation.toggleDrawer()}/>
+            </HeaderButtons>
+        ),
+        headerRight : () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item title="ADD"
+                      iconName={Platform.OS == 'android' ? 'md-create' : 'ios-create'}
+                      onPress={() => navData.navigation.navigate('EditProduct')}/>
             </HeaderButtons>
         )
     }
