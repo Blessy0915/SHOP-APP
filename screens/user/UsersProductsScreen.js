@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Platform } from 'react-native'
+import { Button, Platform, Alert } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import { useSelector, useDispatch } from 'react-redux'
@@ -19,6 +19,14 @@ const UsersProductsScreen = (props) => {
             })
         }
     }
+
+    const deleteHandler = (id) => {
+        Alert.alert('Are you sure?', 'Do you really want to delete this item?', [
+            { text : "NO", style:"default"},
+            { text : "YES", style:"destructive", onPress:() => dispatch(deleteProduct(id)) }
+        ])
+    }
+
     return (
         <FlatList data={userProducts}
                   keyExtractor={(item,index) => item.id}
@@ -35,7 +43,7 @@ const UsersProductsScreen = (props) => {
                                     onPress={() => {editProductHandler(itemData.item.id)}}/>
                             <Button title="DELETE"
                                     color={Colors.primaryColor}
-                                    onPress={() => dispatch(deleteProduct(itemData.item.id))}/>
+                                    onPress={() => deleteHandler(itemData.item.id)}/>
                         </ProductItem>
                   )}/>
     )
