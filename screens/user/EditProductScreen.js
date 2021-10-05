@@ -9,4 +9,10 @@ const EditProductScreen = () => {
     )
 }
 
+EditProductScreen.navigationOptions = (navData) => {
+    const id = navData.navigation.getParam('productID')
+    return {
+        headerTitle : id ? 'EDIT PRODUCT' : 'ADD PRODUCT',
+    }
+}
 export default EditProductScreen
