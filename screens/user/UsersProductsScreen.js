@@ -11,6 +11,14 @@ import { deleteProduct } from '../../store/actions/product'
 const UsersProductsScreen = (props) => {
     const dispatch = useDispatch()
     const userProducts = useSelector(state => state.products.userProducts)
+
+    const editProductHandler = (id) => {
+        if(id){
+            props.navigation.navigate('EditProduct', {
+                productID : id
+            })
+        }
+    }
     return (
         <FlatList data={userProducts}
                   keyExtractor={(item,index) => item.id}
@@ -21,9 +29,10 @@ const UsersProductsScreen = (props) => {
                                      addToCart={() => {
                                         dispatch(cartActions.addToCart(itemData.item))
                                     }}
-                                    onTouch={() => {}}>
+                                    onTouch={() => {editProductHandler(itemData.item.id)}}>
                             <Button title="EDIT" 
-                                    color={Colors.primaryColor}/>
+                                    color={Colors.primaryColor}
+                                    onPress={() => {editProductHandler(itemData.item.id)}}/>
                             <Button title="DELETE"
                                     color={Colors.primaryColor}
                                     onPress={() => dispatch(deleteProduct(itemData.item.id))}/>
