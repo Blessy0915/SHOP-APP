@@ -1,5 +1,7 @@
 import React from 'react'
-import { View, TextInput, ScrollView, Text, StyleSheet } from 'react-native'
+import { View, TextInput, ScrollView, Text, StyleSheet, Platform } from 'react-native'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 const EditProductScreen = () => {
     return (
@@ -30,6 +32,12 @@ EditProductScreen.navigationOptions = (navData) => {
     const id = navData.navigation.getParam('productID')
     return {
         headerTitle : id ? 'EDIT PRODUCT' : 'ADD PRODUCT',
+        headerRight : () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item title="SAVE"
+                      iconName={Platform.OS == 'android' ? 'md-checkmark' : 'ios-checkmark'}/>
+            </HeaderButtons>
+        )
     }
 }
 
