@@ -1,11 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { View, TextInput, ScrollView, Text, StyleSheet, Platform } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
+import * as productActions from '../../store/actions/product'
 
 const EditProductScreen = (props) => {
-
+    
+    const dispatch = useDispatch()
     const productID = props.navigation.getParam('productID')
     const product = useSelector(state => state.products.availableProducts.find(product => product.id == productID))
   
@@ -21,6 +23,7 @@ const EditProductScreen = (props) => {
             imageURL,
             description
         }
+        productID ? dispatch(productActions.updateProduct(formData, productID)) : dispatch(productActions.createProduct(formData, productID))
     }, [title, price, imageURL, description])
     
     useEffect(() => {

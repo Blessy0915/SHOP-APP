@@ -34,7 +34,7 @@ const productsReducer = ( state=initailState, action ) => {
             }
         }
         case UPDATE_PRODUCT : {
-            const productID = action.payload.id
+            const productID = action.payload.productID
             const product = action.payload.product
 
             const indexUserProduct = state.userProducts.findIndex(product => product.id === productID)
@@ -47,6 +47,9 @@ const productsReducer = ( state=initailState, action ) => {
                 state.userProducts[indexUserProduct].price
             )
 
+            const updatedUserProductsArray = [...state.userProducts]
+            updatedUserProductsArray[indexUserProduct] = updatedUserProduct
+
             const indexAvailableProducts = state.availableProducts.findIndex(product => product.id == productID)
             const updatedAvailabelProduct = new Product(
                 productID,
@@ -57,10 +60,13 @@ const productsReducer = ( state=initailState, action ) => {
                 state.availableProducts[indexAvailableProducts].price
             )
 
+            const updatedAvailabelProducts = [...state.availableProducts]
+            updatedAvailabelProducts[indexUserProduct] = updatedAvailabelProduct
+
             return {
                 ...state,
-                availableProducts : [...state.availableProducts, availableProducts[indexAvailableProducts] = updatedAvailabelProduct],
-                userProducts : [...state.userProducts, userProducts[indexUserProduct] = updatedUserProduct]
+                availableProducts : updatedAvailabelProducts,
+                userProducts :  updatedUserProductsArray
             } 
         }
         default : {
