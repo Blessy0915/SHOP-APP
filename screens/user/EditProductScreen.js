@@ -1,27 +1,58 @@
-import React from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { View, TextInput, ScrollView, Text, StyleSheet, Platform } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import { useSelector } from 'react-redux'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 
-const EditProductScreen = () => {
+const EditProductScreen = (props) => {
+
+    const productID = props.navigation.getParam('productID')
+    const product = useSelector(state => state.products.availableProducts.find(product => product.id == productID))
+  
+    const [ title, setTitle ] = useState(productID ? product.title : '')
+    const [ price, setPrice ] = useState(productID ? product.price : '')
+    const [ imageURL, setImageURL ] = useState(productID ? product.imageURL : '')
+    const [ description, setDescription ] = useState(productID ? product.description : '')
+
+    const onSaveHandler = useCallback(() => {
+        const formData = {
+            title,
+            price,
+            imageURL,
+            description
+        }
+    }, [title, price, imageURL, description])
+    
+    useEffect(() => {
+        props.navigation.setParams({ save : onSaveHandler})
+    }, [onSaveHandler])
+
     return (
         <ScrollView>
             <View style={styles.screen}>
                 <View style={styles.container}>
                     <Text styles={styles.label}>TITLE</Text>
-                    <TextInput style={styles.input}/>
+                    <TextInput style={styles.input}
+                               value={title}
+                               onChangeText={(value) => setTitle(value)}/>
                 </View>
                 <View style={styles.container}>
                     <Text>PRICE</Text>
-                    <TextInput  style={styles.input}/>
+                    <TextInput style={styles.input}
+                               value={price}
+                               onChangeText={(value) => setPrice(value)}/>
                 </View>
                 <View style={styles.container}>
                     <Text>IMAGE URL</Text>
-                    <TextInput  style={styles.input}/>
+                    <TextInput style={styles.input}
+                               value={imageURL}
+                               onChangeText={(value) => setImageURL(value)}/>
                 </View>
                 <View style={styles.container}>
                     <Text>DESCRIPTION</Text>
-                    <TextInput  style={styles.input}/>
+                    <TextInput style={styles.input}
+                               value={description}
+                               onChangeText={(value) => setDescription(value)}/>
                 </View>
             </View>
         </ScrollView>
@@ -35,7 +66,8 @@ EditProductScreen.navigationOptions = (navData) => {
         headerRight : () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item title="SAVE"
-                      iconName={Platform.OS == 'android' ? 'md-checkmark' : 'ios-checkmark'}/>
+                      iconName={Platform.OS == 'android' ? 'md-checkmark' : 'ios-checkmark'}
+                      onPress={navData.navigation.getParam('save')}/>
             </HeaderButtons>
         )
     }
