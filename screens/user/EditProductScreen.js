@@ -4,6 +4,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import { createProduct, updateProduct } from '../../store/actions/product'
+import Input from '../../components/UI/Input'
 
 const FORM_UPDATE = 'FORM_UPDATE'
 
@@ -102,38 +103,42 @@ const EditProductScreen = (props) => {
     return (
         <ScrollView>
             <View style={styles.screen}>
-                <View style={styles.container}>
-                    <Text styles={styles.label}>TITLE</Text>
-                    <TextInput style={styles.input}
-                               value={formState.inputValues.title}
-                               onChangeText={validate.bind(this,'title')}
-                               returnKeyType='next'
-                               keyboardType='default'/>
-                </View>
-                { !formState.inputValidities.title && <Text>Please enter valid input.</Text>}
+                <Input isValid={formState.inputValidities.title}
+                       label="TITLE"
+                       value={formState.inputValues.title}
+                       onChangeText={validate.bind(this,'title')}
+                       errorText="Please enter valid text"
+                       returnKeyType='next'
+                       keyboardType='default'
+                       autoCapitalize='sentences'
+                       autoCorrect/>
                 {
-                    !productID &&
-                    <View style={styles.container}>
-                        <Text>PRICE</Text>
-                        <TextInput style={styles.input}
-                                value={formState.inputValues.price}
-                                onChangeText={validate.bind(this,'price')}
-                                keyboardType='decimal-pad'/>
-                    </View>
+                    !productID && (
+                        <Input isValid={formState.inputValidities.price}
+                               label="PRICE"
+                               value={formState.inputValues.price}
+                               onChangeText={validate.bind(this,'price')}
+                               errorText="Please enter valid price"
+                               returnKeyType='next'
+                               keyboardType='decimal-pad'/>
+                    )
                 }
+                <Input isValid={formState.inputValidities.imageURL}
+                       label="IMAGE URL"
+                       value={formState.inputValues.imageURL}
+                       onChangeText={validate.bind(this,'imageURL')}
+                       errorText="Please enter valid image url"
+                       returnKeyType='next'
+                       keyboardType='default'/>
 
-                <View style={styles.container}>
-                    <Text>IMAGE URL</Text>
-                    <TextInput style={styles.input}
-                               value={formState.inputValues.imageURL}
-                               onChangeText={validate.bind(this,'imageURL')}/>
-                </View>
-                <View style={styles.container}>
-                    <Text>DESCRIPTION</Text>
-                    <TextInput style={styles.input}
-                               value={formState.inputValues.description}
-                               onChangeText={validate.bind(this,'description')}/>
-                </View>
+                <Input isValid={formState.inputValidities.description}
+                       label="DESCRIPTION"
+                       value={formState.inputValues.description}
+                       onChangeText={validate.bind(this,'description')}
+                       errorText="Please enter valid description"
+                       multiline
+                       numberOfLines={3}
+                       keyboardType='default'/>
             </View>
         </ScrollView>
     )

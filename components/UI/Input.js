@@ -9,11 +9,12 @@ const Input = (props) => {
             </Text>
             <TextInput {...props}
                        style={styles.input}
-                       value={formState.inputValues.title}
-                       onChangeText={validate.bind(this,'title')}/>
+                       value={props.value}
+                       onChangeText={props.onChangeText}
+                       />
             {
-                props.isError && (
-                    <Text>
+                !props.isValid && (
+                    <Text style={styles.errorText}>
                         {props.errorText}
                     </Text>
                 )
@@ -35,6 +36,9 @@ const styles = StyleSheet.create({
         paddingVertical : 5,
         borderBottomColor : '#ccc',
         borderBottomWidth : 1
+    },
+    errorText : {
+        color : 'red'
     }
 })
 export default Input
