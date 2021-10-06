@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useReducer } from 'react'
-import { View, TextInput, ScrollView, Text, StyleSheet, Platform } from 'react-native'
+import { View, TextInput, ScrollView, Text, StyleSheet, Platform, Alert } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
@@ -74,21 +74,26 @@ const EditProductScreen = (props) => {
         })
     }
 
-    const [ title, setTitle ] = useState(productID ? product.title : '')
-    const [ price, setPrice ] = useState(productID ? product.price : '')
-    const [ imageURL, setImageURL ] = useState(productID ? product.imageURL : '')
-    const [ description, setDescription ] = useState(productID ? product.description : '')
-
     const onSaveHandler = useCallback(() => {
-        const formData = {
-            title,
-            price,
-            imageURL,
-            description
+        if(!formState.isFormValid){
+            Alert.alert(
+                "Wrong input", 
+                "Please check the errors in the form",
+                [
+                    {text : "OK", style:'default'}
+                ])
         }
-        productID ? dispatch(updateProduct(formData, productID)) : dispatch(createProduct(formData))
-        props.navigation.goBack()
-    }, [title, price, imageURL, description])
+        if(formState.isFormValid){
+            const formData = {
+                title : formState.inputValues.title,
+                price : formState.inputValues.price,
+                imageURL : formState.inputValues.imageURL,
+                description : formState.inputValues.description
+            }
+            productID ? dispatch(updateProduct(formData, productID)) : dispatch(createProduct(formData))
+            props.navigation.goBack()
+        }
+    }, [formState,dispatch,productID])
     
     useEffect(() => {
         props.navigation.setParams({ save : onSaveHandler})
@@ -100,17 +105,18 @@ const EditProductScreen = (props) => {
                 <View style={styles.container}>
                     <Text styles={styles.label}>TITLE</Text>
                     <TextInput style={styles.input}
-                               value={title}
+                               value={formState.inputValues.title}
                                onChangeText={validate.bind(this,'title')}
                                returnKeyType='next'
                                keyboardType='default'/>
                 </View>
+                { !formState.inputValidities.title && <Text>Please enter valid input.</Text>}
                 {
                     !productID &&
                     <View style={styles.container}>
                         <Text>PRICE</Text>
                         <TextInput style={styles.input}
-                                value={price}
+                                value={formState.inputValues.price}
                                 onChangeText={validate.bind(this,'price')}
                                 keyboardType='decimal-pad'/>
                     </View>
@@ -119,13 +125,13 @@ const EditProductScreen = (props) => {
                 <View style={styles.container}>
                     <Text>IMAGE URL</Text>
                     <TextInput style={styles.input}
-                               value={imageURL}
+                               value={formState.inputValues.imageURL}
                                onChangeText={validate.bind(this,'imageURL')}/>
                 </View>
                 <View style={styles.container}>
                     <Text>DESCRIPTION</Text>
                     <TextInput style={styles.input}
-                               value={description}
+                               value={formState.inputValues.description}
                                onChangeText={validate.bind(this,'description')}/>
                 </View>
             </View>
