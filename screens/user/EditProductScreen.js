@@ -3,7 +3,7 @@ import { View, TextInput, ScrollView, Text, StyleSheet, Platform } from 'react-n
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
-import * as productActions from '../../store/actions/product'
+import { createProduct, updateProduct } from '../../store/actions/product'
 
 const EditProductScreen = (props) => {
     
@@ -23,7 +23,7 @@ const EditProductScreen = (props) => {
             imageURL,
             description
         }
-        productID ? dispatch(productActions.updateProduct(formData, productID)) : dispatch(productActions.createProduct(formData, productID))
+        productID ? dispatch(updateProduct(formData, productID)) : dispatch(createProduct(formData))
         props.navigation.goBack()
     }, [title, price, imageURL, description])
     

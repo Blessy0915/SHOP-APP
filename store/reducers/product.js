@@ -25,7 +25,7 @@ const productsReducer = ( state=initailState, action ) => {
                 product.title,
                 product.imageURL,
                 product.description,
-                product.price
+                Number(product.price)
             )
             return {
                 ...state,
