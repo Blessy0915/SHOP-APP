@@ -1,9 +1,41 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useReducer } from 'react'
 import { View, TextInput, ScrollView, Text, StyleSheet, Platform } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import { createProduct, updateProduct } from '../../store/actions/product'
+
+const FORM_UPDATE = 'FORM_UPDATE'
+
+const reducer = (state, action) => {
+    switch(action.type) {
+        case FORM_UPDATE : {
+            const updatedInputValues = {
+                ...state.inputValues,
+                [action.inputIdentifier] : action.value
+            }
+
+            const updatedInputValidities = {
+                ...state.inputValidities,
+                [action.inputIdentifier] : action.isValid
+            }
+
+            let updatedFormIsValid = true
+            for(const key in updatedInputValidities){
+                updatedFormIsValid = updatedFormIsValid && updatedInputValidities[key]
+            }
+            return {
+                ...state,
+                inputValues : updatedInputValues,
+                inputValidities : updatedInputValidities,
+                isFormValid : updatedFormIsValid
+            }
+        }
+        default : {
+            return state
+        }
+    }
+}
 
 const EditProductScreen = (props) => {
     
@@ -11,6 +43,37 @@ const EditProductScreen = (props) => {
     const productID = props.navigation.getParam('productID')
     const product = useSelector(state => state.products.availableProducts.find(product => product.id == productID))
   
+    const initalState = {
+        inputValues : {
+            title : productID ? product.title : '',
+            price : '',
+            imageURL : productID ? product.imageURL : '',
+            description : productID ? product.description : ''
+        },
+        inputValidities : {
+            title : productID ? true: false,
+            price :  productID ? true: false,
+            imageURL :  productID ? true: false,
+            description :  productID ? true: false,
+        },
+        isFormValid : productID ? true : false
+    }
+
+    const [ formState, dispatchFormAction ] = useReducer(reducer, initalState)
+
+    const validate = (inputIdentifier,text) => {
+        let isValid = false
+        if(text.trim().length > 0){
+            isValid = true
+        }
+        dispatchFormAction({
+            type : FORM_UPDATE,
+            value : text,
+            isValid : isValid,
+            inputIdentifier : inputIdentifier
+        })
+    }
+
     const [ title, setTitle ] = useState(productID ? product.title : '')
     const [ price, setPrice ] = useState(productID ? product.price : '')
     const [ imageURL, setImageURL ] = useState(productID ? product.imageURL : '')
@@ -38,7 +101,7 @@ const EditProductScreen = (props) => {
                     <Text styles={styles.label}>TITLE</Text>
                     <TextInput style={styles.input}
                                value={title}
-                               onChangeText={(value) => setTitle(value)}
+                               onChangeText={validate.bind(this,'title')}
                                returnKeyType='next'
                                keyboardType='default'/>
                 </View>
@@ -48,7 +111,7 @@ const EditProductScreen = (props) => {
                         <Text>PRICE</Text>
                         <TextInput style={styles.input}
                                 value={price}
-                                onChangeText={(value) => setPrice(value)}
+                                onChangeText={validate.bind(this,'price')}
                                 keyboardType='decimal-pad'/>
                     </View>
                 }
@@ -57,13 +120,13 @@ const EditProductScreen = (props) => {
                     <Text>IMAGE URL</Text>
                     <TextInput style={styles.input}
                                value={imageURL}
-                               onChangeText={(value) => setImageURL(value)}/>
+                               onChangeText={validate.bind(this,'imageURL')}/>
                 </View>
                 <View style={styles.container}>
                     <Text>DESCRIPTION</Text>
                     <TextInput style={styles.input}
                                value={description}
-                               onChangeText={(value) => setDescription(value)}/>
+                               onChangeText={validate.bind(this,'description')}/>
                 </View>
             </View>
         </ScrollView>
