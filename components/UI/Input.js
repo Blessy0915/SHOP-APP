@@ -54,7 +54,7 @@ const Input = (props) => {
             <TextInput {...props}
                        style={styles.input}
                        value={props.value}
-                       onChangeText={inputChangeHandler}
+                       onChangeText={props.onChangeText}
                        />
             {
                 !props.isValid && (
