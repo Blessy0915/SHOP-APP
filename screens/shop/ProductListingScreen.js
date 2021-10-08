@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { FlatList, Platform, Button } from 'react-native'
+import React, {useState, useEffect } from 'react'
+import { View, FlatList, Platform, Button, ActivityIndicator, StyleSheet } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 
@@ -11,13 +11,29 @@ import * as productActions from '../../store/actions/product'
 
 const ProductListingScreen = (props) => {
 
+    const [ isLoading, setIsLoading ] = useState(false)
     const dispatch = useDispatch()
     const availableProducts = useSelector(state => state.products.availableProducts)
 
     useEffect(() => {
-        dispatch(productActions.fetchProducts())
+        const loadProducts = async () => {
+            setIsLoading(true)
+            await dispatch(productActions.fetchProducts())
+            setIsLoading(false)
+        }
+        setIsLoading(false)
+        loadProducts()
     }, [dispatch])
 
+    if(isLoading){
+        return(
+            <View style={styles.center}>
+                <ActivityIndicator size={25}
+                                   color={Colors.primaryColor}>
+                </ActivityIndicator>
+            </View>
+        )
+    }
     return (
         <FlatList data={availableProducts}
                   keyExtractor={(item, index) => item.id}
@@ -68,5 +84,13 @@ ProductListingScreen.navigationOptions = (navData) => {
         ),
     }
 }
+
+const styles= StyleSheet.create({
+    center : {
+        flex : 1,
+        justifyContent : 'center',
+        alignItems : 'center'
+    }
+})
 
 export default ProductListingScreen
