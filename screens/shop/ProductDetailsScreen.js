@@ -24,7 +24,7 @@ const ProductDetailsScreen = (props) => {
             </View>
             <View style={styles.textContainer}> 
                 <Text style={styles.price}>
-                    ${product.price.toFixed(2)}
+                    ${Number(product.price).toFixed(2)}
                 </Text>  
                 <Text style={styles.description}>
                     {product.description}

@@ -62,11 +62,29 @@ export const createProduct = (product) => {
 }
 
 export const updateProduct = (product, productID) => {
-    return {
-        type : UPDATE_PRODUCT,
-        payload : {
-            product,
-            productID
-        }
+    return async (dispatch) => {
+        try{
+            const response = await fetch(`https://shop-app-6daaa-default-rtdb.firebaseio.com/products/${productID}.json`,{
+                method : 'PATCH',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({
+                    title : product.title,
+                    description : product.description,
+                    imageURL : product.imageURL
+                })
+            })
+            const productRes = await response.json()
+        }catch(err){
+            throw err
+        } 
+        dispatch({
+            type : UPDATE_PRODUCT,
+            payload : {
+                product : product,
+                productID : productID
+            }
+        })  
     }
 }

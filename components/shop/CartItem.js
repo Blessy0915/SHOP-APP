@@ -14,7 +14,7 @@ const CartItem = (props) => {
             </Text>
             <View style={styles.row}>
                 <Text style={styles.sum}>
-                    ${props.productSum.toFixed(2)} {'  '}
+                    ${Number(props.productSum).toFixed(2)} {'  '}
                 </Text>
                 {
                     !props.hideRemoveIcon && 
