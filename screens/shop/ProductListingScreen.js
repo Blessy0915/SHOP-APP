@@ -21,14 +21,14 @@ const ProductListingScreen = (props) => {
             await dispatch(productActions.fetchProducts())
             setIsLoading(false)
         }
-        setIsLoading(false)
+        // setIsLoading(false)
         loadProducts()
     }, [dispatch])
 
     if(isLoading){
         return(
             <View style={styles.center}>
-                <ActivityIndicator size={25}
+                <ActivityIndicator size='large'
                                    color={Colors.primaryColor}>
                 </ActivityIndicator>
             </View>
