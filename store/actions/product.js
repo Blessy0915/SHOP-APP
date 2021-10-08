@@ -21,6 +21,9 @@ export const fetchProducts = () => {
                     productsRes[key].price
                 ) )
             }
+            if(!response.ok){
+                throw new Error('Something went wrong')
+            }
             dispatch({
                 type : SET_PRODUCTS,
                 payload : {
@@ -43,6 +46,9 @@ export const deleteProduct = (id) => {
                 }
             })
             const prodRes = await response.json()
+            if(!response.ok){
+                throw new Error('Something went wrong')
+            }
             dispatch({
                 type : DELETE_PRODUCT,
                 payload : {
@@ -66,11 +72,15 @@ export const createProduct = (product) => {
             body : JSON.stringify(product)
         })       
         const resData = await response.json();
-
+        if(!response.ok){
+            throw new Error('Something went wrong')
+        }
         dispatch({
             type : CREATE_PRODUCT,
-            product : product,
-            id : resData.name
+            payload : {
+                product : product,
+                id : resData.name
+            } 
         })
     }
 }
@@ -90,15 +100,18 @@ export const updateProduct = (product, productID) => {
                 })
             })
             const productRes = await response.json()
+            if(!response.ok){
+                throw new Error('Something went wrong')
+            }
+            dispatch({
+                type : UPDATE_PRODUCT,
+                payload : {
+                    product : product,
+                    productID : productID
+                }
+            })  
         }catch(err){
             throw err
         } 
-        dispatch({
-            type : UPDATE_PRODUCT,
-            payload : {
-                product : product,
-                productID : productID
-            }
-        })  
     }
 }

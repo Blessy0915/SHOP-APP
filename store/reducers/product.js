@@ -28,6 +28,7 @@ const productsReducer = ( state=initailState, action ) => {
             const id = action.payload.id
             const newProduct = new Product(
                 id,
+                'u1',
                 product.title,
                 product.imageURL,
                 product.description,
