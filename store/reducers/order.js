@@ -15,7 +15,7 @@ const ordersReducer = ( state=initailState, action ) => {
                 action.payload.id,
                 items,
                 amount,
-                new Date()
+                action.payload.date
             )
             return {
                 ...state,
