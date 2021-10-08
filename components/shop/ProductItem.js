@@ -19,7 +19,7 @@ const ProductItem = (props) => {
 
                     <View style={styles.details}>
                         <Text style={styles.description}>{props.description}</Text>
-                        <Text style={styles.price}>${props.price.toFixed(2)}</Text>
+                        <Text style={styles.price}>${Number(props.price).toFixed(2)}</Text>
                     </View>
 
                     <View style={styles.buttonContainer}>

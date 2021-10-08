@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FlatList, Platform, Button } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -7,11 +7,16 @@ import ProductItem from '../../components/shop/ProductItem'
 import * as cartActions from '../../store/actions/cart'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Color'
+import * as productActions from '../../store/actions/product'
 
 const ProductListingScreen = (props) => {
 
     const dispatch = useDispatch()
     const availableProducts = useSelector(state => state.products.availableProducts)
+
+    useEffect(() => {
+        dispatch(productActions.fetchProducts())
+    }, [dispatch])
 
     return (
         <FlatList data={availableProducts}
