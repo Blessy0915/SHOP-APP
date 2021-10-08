@@ -7,25 +7,30 @@ export const SET_PRODUCTS = 'SET_PRODUCTS'
 
 export const fetchProducts = () => {
     return async (dispatch) => {
-        const response = await fetch('https://shop-app-6daaa-default-rtdb.firebaseio.com/products.json')
-        const productsRes = await response.json()
-        const products = []
-        for(const key in productsRes){
-            products.push(new Product(
-                key,
-                'u1',
-                productsRes[key].title,
-                productsRes[key].imageURL,
-                productsRes[key].description,
-                productsRes[key].price
-            ) )
-        }
-        dispatch({
-            type : SET_PRODUCTS,
-            payload : {
-                products
+        try{
+            const response = await fetch('https://shop-app-6daaa-default-rtdb.firebaseio.com/products.json')
+            const productsRes = await response.json()
+            const products = []
+            for(const key in productsRes){
+                products.push(new Product(
+                    key,
+                    'u1',
+                    productsRes[key].title,
+                    productsRes[key].imageURL,
+                    productsRes[key].description,
+                    productsRes[key].price
+                ) )
             }
-        })
+            dispatch({
+                type : SET_PRODUCTS,
+                payload : {
+                    products
+                }
+            })
+        }
+        catch(err){
+            throw err
+        }
     }
 }
 export const deleteProduct = (id) => {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react'
+import React, {useState, useEffect, useCallback } from 'react'
 import { View, Text, FlatList, Platform, Button, ActivityIndicator, StyleSheet } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -12,18 +12,25 @@ import * as productActions from '../../store/actions/product'
 const ProductListingScreen = (props) => {
 
     const [ isLoading, setIsLoading ] = useState(false)
+    const [ error, setError ] = useState('')
     const dispatch = useDispatch()
     const availableProducts = useSelector(state => state.products.availableProducts)
 
-    useEffect(() => {
-        const loadProducts = async () => {
+    const loadProducts = useCallback(async() => {
+        setError(null)
+        try{
             setIsLoading(true)
             await dispatch(productActions.fetchProducts())
-            setIsLoading(false)
         }
-        // setIsLoading(false)
+        catch(err){
+            setError(err.message)
+        }
+        setIsLoading(false)
+    }, [setIsLoading, setError, dispatch])
+
+    useEffect(() => {
         loadProducts()
-    }, [dispatch])
+    }, [loadProducts])
 
     if(isLoading){
         return(
@@ -40,6 +47,18 @@ const ProductListingScreen = (props) => {
                 <Text>
                     No products Found. Try adding some.
                 </Text>
+            </View>
+        )
+    }
+    if(error){
+        return(
+            <View style={styles.center}>
+                <Text>
+                    Error occured
+                </Text>
+                <Button title="Try again"
+                        color={Colors.primaryColor}
+                        onPress={loadProducts}/>
             </View>
         )
     }
