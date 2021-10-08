@@ -12,7 +12,7 @@ const ordersReducer = ( state=initailState, action ) => {
             const amount = action.payload.orderData.amount
 
             const newOrder = new Order(
-                new Date().toString(),
+                action.payload.id,
                 items,
                 amount,
                 new Date()
