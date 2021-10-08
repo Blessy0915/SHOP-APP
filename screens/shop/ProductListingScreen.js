@@ -29,6 +29,13 @@ const ProductListingScreen = (props) => {
     }, [setIsLoading, setError, dispatch])
 
     useEffect(() => {
+        const addListenerToLoadProducts = props.navigation.addListener('willFocus', loadProducts)
+        return () => {
+            addListenerToLoadProducts.remover()
+        }
+    }, [loadProducts])
+
+    useEffect(() => {
         loadProducts()
     }, [loadProducts])
 
