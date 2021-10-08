@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect, useReducer } from 'react'
-import { View, TextInput, ScrollView, Text, StyleSheet, Platform, Alert } from 'react-native'
+import { View, TextInput, ScrollView, Text, StyleSheet, Platform, Alert, ActivityIndicator } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import { createProduct, updateProduct } from '../../store/actions/product'
 import Input from '../../components/UI/Input'
+import  Colors from '../../constants/Color'
 
 const FORM_UPDATE = 'FORM_UPDATE'
 
@@ -39,7 +40,9 @@ const reducer = (state, action) => {
 }
 
 const EditProductScreen = (props) => {
-    
+
+    const [ isLoading, setLoading ] = useState(false)
+    const [ error, setError ] = useState()    
     const dispatch = useDispatch()
     const productID = props.navigation.getParam('productID')
     const product = useSelector(state => state.products.availableProducts.find(product => product.id == productID))
@@ -75,7 +78,7 @@ const EditProductScreen = (props) => {
         })
     }
 
-    const onSaveHandler = useCallback(() => {
+    const onSaveHandler = useCallback(async() => {
         if(!formState.isFormValid){
             Alert.alert(
                 "Wrong input", 
@@ -84,22 +87,46 @@ const EditProductScreen = (props) => {
                     {text : "OK", style:'default'}
                 ])
         }
-        if(formState.isFormValid){
-            const formData = {
-                title : formState.inputValues.title,
-                price : formState.inputValues.price,
-                imageURL : formState.inputValues.imageURL,
-                description : formState.inputValues.description
+        try{
+            setError(null)
+            setLoading(true)
+            if(formState.isFormValid){
+                const formData = {
+                    title : formState.inputValues.title,
+                    price : formState.inputValues.price,
+                    imageURL : formState.inputValues.imageURL,
+                    description : formState.inputValues.description
+                }
+                productID ? dispatch(updateProduct(formData, productID)) : dispatch(createProduct(formData))
+                props.navigation.goBack()
             }
-            productID ? dispatch(updateProduct(formData, productID)) : dispatch(createProduct(formData))
-            props.navigation.goBack()
         }
+        catch(err){
+            setError(err.message)
+        }
+        setLoading(false)
     }, [formState,dispatch,productID])
     
+    useEffect(() => {
+        if(error){
+            Alert.alert('Something went wrong',
+                         error,
+                         [{text : 'OK'}])
+        }
+    }, [error])
+
     useEffect(() => {
         props.navigation.setParams({ save : onSaveHandler})
     }, [onSaveHandler])
 
+    if(isLoading){
+        return(
+            <View>
+                <ActivityIndicator size='large'
+                                   color={Colors.primaryColor}/>
+            </View>
+        )
+    }
     return (
         <ScrollView>
             <View style={styles.screen}>
