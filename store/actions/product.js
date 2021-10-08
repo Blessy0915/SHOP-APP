@@ -34,10 +34,24 @@ export const fetchProducts = () => {
     }
 }
 export const deleteProduct = (id) => {
-    return{
-        type : DELETE_PRODUCT,
-        payload : {
-            productID : id
+    return async (dispatch) => {
+        try{
+            const response = await fetch(`https://shop-app-6daaa-default-rtdb.firebaseio.com/products/${id}.json`, {
+                method : 'DELETE',
+                headers : {
+                    'Content-Type' : 'application/json'
+                }
+            })
+            const prodRes = await response.json()
+            dispatch({
+                type : DELETE_PRODUCT,
+                payload : {
+                    productID : id
+                }
+            })
+        }
+        catch(err){
+            throw err
         }
     }
 }
