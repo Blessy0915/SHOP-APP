@@ -19,9 +19,9 @@ const productsReducer = ( state=initailState, action ) => {
         }
         case CREATE_PRODUCT : {
             const product = action.payload.product
+            const id = action.payload.id
             const newProduct = new Product(
-                new Date().toString(),
-                'u1',
+                id,
                 product.title,
                 product.imageURL,
                 product.description,

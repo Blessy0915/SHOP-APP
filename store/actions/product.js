@@ -12,11 +12,21 @@ export const deleteProduct = (id) => {
 }
 
 export const createProduct = (product) => {
-    return {
-        type : CREATE_PRODUCT,
-        payload : {
-            product
-        }
+    return async (dispatch) => {
+        const response = await fetch('https://shop-app-6daaa-default-rtdb.firebaseio.com/products.json', {
+            method : 'POST',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify(product)
+        })       
+        const resData = await response.json();
+
+        dispatch({
+            type : CREATE_PRODUCT,
+            product : product,
+            id : resData.name
+        })
     }
 }
 
