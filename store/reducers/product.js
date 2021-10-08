@@ -1,6 +1,6 @@
 import PRODUCTS from '../../data/dummy-data'
 import Product from '../../models/Product'
-import { DELETE_PRODUCT, UPDATE_PRODUCT, CREATE_PRODUCT } from '../actions/product'
+import { DELETE_PRODUCT, UPDATE_PRODUCT, CREATE_PRODUCT, SET_PRODUCTS } from '../actions/product'
 
 const initailState = {
     availableProducts : PRODUCTS,
@@ -9,6 +9,12 @@ const initailState = {
 
 const productsReducer = ( state=initailState, action ) => {
     switch(action.type){
+        case SET_PRODUCTS : {
+            return {
+                availableProducts : action.payload.products,
+                userProducts : action.payload.products.filter(prod => prod.ownerID == 'u1')
+            }
+        }
         case DELETE_PRODUCT : {
             const productID = action.payload.productID
             return {
