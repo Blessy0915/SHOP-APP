@@ -97,7 +97,9 @@ const EditProductScreen = (props) => {
                     imageURL : formState.inputValues.imageURL,
                     description : formState.inputValues.description
                 }
-                productID ? dispatch(updateProduct(formData, productID)) : dispatch(createProduct(formData))
+                productID ? 
+                await dispatch(updateProduct(formData, productID)) :
+                await dispatch(createProduct(formData))
                 props.navigation.goBack()
             }
         }

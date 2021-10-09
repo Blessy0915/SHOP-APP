@@ -14,7 +14,7 @@ const cartReducer = ( state=initailState, action ) => {
         case ADD_TO_CART : {
             const addedProduct = action.payload.product
             const productTitle = addedProduct.title
-            const productPrice = addedProduct.price
+            const productPrice = +addedProduct.price
 
             if(state.items[addedProduct.id]){  //items.id?
                 const incQuantity = state.items[addedProduct.id].quantity + 1
